@@ -1,0 +1,8 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { useGetLibriInGiroQuery } from './services/prestitoApi';
+import './libri.css'; // se hai uno stile personalizzato
+const LibriInGiro = () => {
+    const { data: libri, isLoading, isError } = useGetLibriInGiroQuery();
+    return (_jsxs("div", { className: "container", children: [_jsx("h1", { children: "\uD83D\uDCDA Libri attualmente in prestito" }), isLoading && _jsx("p", { className: "message", children: "Caricamento in corso..." }), isError && _jsx("p", { className: "message", style: { color: 'red' }, children: "Errore durante il caricamento." }), !isLoading && !isError && (_jsxs("table", { children: [_jsx("thead", { children: _jsxs("tr", { children: [_jsx("th", { children: "Titolo" }), _jsx("th", { children: "Autore" }), _jsx("th", { children: "Inventario" }), _jsx("th", { children: "Collocazione" }), _jsx("th", { children: "Lettore" }), _jsx("th", { children: "Data Inizio" }), _jsx("th", { children: "Data Fine" })] }) }), _jsx("tbody", { children: libri?.map((libro, index) => (_jsxs("tr", { children: [_jsx("td", { children: libro.titolo }), _jsx("td", { children: libro.autore }), _jsx("td", { children: libro.numeroInventario }), _jsx("td", { children: libro.collocazione }), _jsxs("td", { children: [libro.nome, " ", libro.cognome] }), _jsx("td", { children: new Date(libro.dataInizioPrestito).toLocaleDateString() }), _jsx("td", { children: new Date(libro.dataFinePrestito).toLocaleDateString() })] }, index))) })] }))] }));
+};
+export default LibriInGiro;
