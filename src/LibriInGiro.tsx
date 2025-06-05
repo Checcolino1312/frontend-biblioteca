@@ -1,47 +1,57 @@
 import React from 'react';
 import { useGetLibriInGiroQuery } from './services/prestitoApi';
 import { Libro } from './types/Libro';
-import './libri.css'; // se hai uno stile personalizzato
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography,
+  Container,
+} from '@mui/material';
 
 const LibriInGiro = () => {
   const { data: libri, isLoading, isError } = useGetLibriInGiroQuery();
 
   return (
-    <div className="container">
-      <h1>📚 Libri attualmente in prestito</h1>
+    <Container sx={{ mt: 4 }}>
+      <Typography variant="h5" gutterBottom textAlign="center">
+        📚 Libri attualmente in prestito
+      </Typography>
 
-      {isLoading && <p className="message">Caricamento in corso...</p>}
-      {isError && <p className="message" style={{ color: 'red' }}>Errore durante il caricamento.</p>}
+      {isLoading && <Typography>Caricamento in corso...</Typography>}
+      {isError && <Typography color="error">Errore durante il caricamento.</Typography>}
 
       {!isLoading && !isError && (
-        <table>
-          <thead>
-            <tr>
-              <th>Titolo</th>
-              <th>Autore</th>
-              <th>Inventario</th>
-              <th>Collocazione</th>
-              <th>Lettore</th>
-              <th>Data Inizio</th>
-              <th>Data Fine</th>
-            </tr>
-          </thead>
-          <tbody>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Titolo</TableCell>
+              <TableCell>Autore</TableCell>
+              <TableCell>Inventario</TableCell>
+              <TableCell>Collocazione</TableCell>
+              <TableCell>Lettore</TableCell>
+              <TableCell>Data Inizio</TableCell>
+              <TableCell>Data Fine</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
             {libri?.map((libro: Libro, index: number) => (
-              <tr key={index}>
-                <td>{libro.titolo}</td>
-                <td>{libro.autore}</td>
-                <td>{libro.numeroInventario}</td>
-                <td>{libro.collocazione}</td>
-                <td>{libro.nome} {libro.cognome}</td>
-                <td>{new Date(libro.dataInizioPrestito).toLocaleDateString()}</td>
-                <td>{new Date(libro.dataFinePrestito).toLocaleDateString()}</td>
-              </tr>
+              <TableRow key={index}>
+                <TableCell>{libro.titolo}</TableCell>
+                <TableCell>{libro.autore}</TableCell>
+                <TableCell>{libro.numeroInventario}</TableCell>
+                <TableCell>{libro.collocazione}</TableCell>
+                <TableCell>{libro.nome} {libro.cognome}</TableCell>
+                <TableCell>{new Date(libro.dataInizioPrestito).toLocaleDateString()}</TableCell>
+                <TableCell>{new Date(libro.dataFinePrestito).toLocaleDateString()}</TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       )}
-    </div>
+    </Container>
   );
 };
 
